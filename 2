@@ -1,0 +1,47 @@
+#include <cstdlib>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+
+int main() {
+    const int capacity = 100;
+    double a[capacity];
+    int n;
+
+    std::cout << "Введіть кількість елементів (1-100): ";
+    if (!(std::cin >> n) || n < 1 || n > capacity) {
+        std::cout << "Некоректна довжина масиву.\n";
+        return 1;
+    }
+
+    // Ділення на 10.0 дає числа від -10.0 до 10.0.
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "Масив:";
+    for (double* p = a; p < a + n; ++p) {
+        *p = (std::rand() % 201 - 100) / 10.0;
+        std::cout << ' ' << *p;
+    }
+
+    // Беремо перший елемент як початковий максимум.
+    double maximum = *a;
+    double positiveSum = 0.0;
+    for (const double* p = a; p < a + n; ++p) {
+        if (*p > maximum) {
+            maximum = *p;
+        }
+        if (*p > 0.0) {
+            positiveSum += *p;
+        }
+    }
+
+    // За відсутності додатних елементів добуток дорівнює 0.
+    double product = 0.0;
+    if (positiveSum > 0.0) {
+        product = maximum * positiveSum;
+    }
+    std::cout << "\nМаксимальний елемент: " << maximum
+              << "\nСума додатних елементів: " << positiveSum
+              << "\nДобуток: " << std::setprecision(2) << product << '\n';
+    return 0;
+}
