@@ -1,0 +1,41 @@
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+
+int main() {
+    const int capacity = 100;
+    int a[capacity];
+    int n;
+
+    std::cout << "Введіть кількість елементів (1-100): ";
+    if (!(std::cin >> n) || n < 1 || n > capacity) {
+        std::cout << "Некоректна довжина масиву.\n";
+        return 1;
+    }
+
+    // Заповнюємо лише перші n комірок числами від -25 до 25.
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    std::cout << "Масив:";
+    for (int* p = a; p < a + n; ++p) {
+        *p = std::rand() % 51 - 25;
+        std::cout << ' ' << *p;
+    }
+
+    // Якщо остача від ділення на 5 дорівнює нулю,
+    // виводимо елемент і додаємо його до суми.
+    int sum = 0;
+    bool found = false;
+    std::cout << "\nЕлементи, кратні 5:";
+    for (const int* p = a; p < a + n; ++p) {
+        if (*p % 5 == 0) {
+            std::cout << ' ' << *p;
+            sum += *p;
+            found = true;
+        }
+    }
+    if (!found) {
+        std::cout << " немає";
+    }
+    std::cout << "\nСума: " << sum << '\n';
+    return 0;
+}
